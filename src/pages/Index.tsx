@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, Github, ExternalLink, Calendar, MapPin, Award, Code, Database, Server, Globe, GraduationCap, Menu, X, Home, User, FileText, Briefcase, Book, Contact } from 'lucide-react';
 
@@ -44,48 +43,97 @@ const Index = () => {
     { id: 'contact', label: 'Contact', icon: Contact },
   ];
 
+  // Animated background particles component
+  const AnimatedParticles = () => (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(30)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-2 h-2 bg-blue-400 rounded-full opacity-20 animate-float"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 10}s`,
+            animationDuration: `${3 + Math.random() * 4}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+
+  // Floating geometric shapes
+  const FloatingShapes = () => (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute top-20 left-10 w-32 h-32 border border-blue-200 rounded-full animate-spin opacity-10" style={{ animationDuration: '20s' }} />
+      <div className="absolute top-40 right-20 w-20 h-20 bg-gradient-to-r from-purple-200 to-pink-200 rounded-lg animate-bounce opacity-20" style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-40 left-20 w-16 h-16 border-2 border-green-200 transform rotate-45 animate-pulse opacity-15" />
+      <div className="absolute bottom-20 right-40 w-24 h-24 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full animate-ping opacity-10" style={{ animationDuration: '3s' }} />
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+      {/* Global animated background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 animate-gradient-shift pointer-events-none" />
+      
       {/* Fixed Sidebar Navigation */}
-      <nav className="fixed top-0 left-0 h-full w-72 bg-gray-900 text-white z-50 transform transition-transform duration-300 lg:translate-x-0 -translate-x-full lg:block">
-        <div className="p-8">
+      <nav className="fixed top-0 left-0 h-full w-72 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white z-50 transform transition-transform duration-300 lg:translate-x-0 -translate-x-full lg:block shadow-2xl border-r border-gray-700">
+        <div className="p-8 relative">
+          {/* Sidebar background effect */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 via-purple-900/10 to-transparent pointer-events-none" />
+          
           {/* Profile Section */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 relative z-10">
             <div className="relative w-32 h-32 mx-auto mb-4 group">
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-pulse"></div>
-              <div className="absolute inset-1 rounded-full bg-white"></div>
-              <div className="absolute inset-2 rounded-full overflow-hidden shadow-2xl">
+              <div className="absolute inset-1 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 animate-spin" style={{ animationDuration: '3s' }}></div>
+              <div className="absolute inset-2 rounded-full bg-white"></div>
+              <div className="absolute inset-3 rounded-full overflow-hidden shadow-2xl">
                 <img 
                   src="/lovable-uploads/f2c6e985-8559-4402-b060-716b670040b0.png"
                   alt="Lokeshwar Reddy Guvvla"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
+              {/* Floating particles around profile */}
+              <div className="absolute -inset-4">
+                {[...Array(8)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1 h-1 bg-blue-400 rounded-full animate-ping opacity-60"
+                    style={{
+                      left: `${20 + Math.cos(i * Math.PI / 4) * 40}%`,
+                      top: `${20 + Math.sin(i * Math.PI / 4) * 40}%`,
+                      animationDelay: `${i * 0.2}s`
+                    }}
+                  />
+                ))}
+              </div>
             </div>
-            <h2 className="text-xl font-semibold mb-2">Lokeshwar Reddy</h2>
-            <p className="text-gray-400 text-sm">Blockchain Developer</p>
+            <h2 className="text-xl font-semibold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Lokeshwar Reddy</h2>
+            <p className="text-gray-300 text-sm animate-pulse">Blockchain Developer</p>
             
             {/* Social Links */}
             <div className="flex justify-center space-x-4 mt-4">
-              <a href="mailto:lokeshwarreddyguvvla@gmail.com" className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+              <a href="mailto:lokeshwarreddyguvvla@gmail.com" className="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center hover:from-blue-500 hover:to-blue-600 transition-all duration-300 transform hover:scale-110 hover:rotate-12">
                 <Mail className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors">
+              <a href="#" className="w-8 h-8 bg-gradient-to-r from-gray-600 to-gray-700 rounded-full flex items-center justify-center hover:from-gray-500 hover:to-gray-600 transition-all duration-300 transform hover:scale-110 hover:rotate-12">
                 <Github className="w-4 h-4" />
               </a>
             </div>
           </div>
 
           {/* Navigation Menu */}
-          <ul className="space-y-2">
+          <ul className="space-y-2 relative z-10">
             {navItems.map((item) => (
               <li key={item.id}>
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 ${
                     activeSection === item.id 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg' 
+                      : 'text-gray-300 hover:bg-gradient-to-r hover:from-gray-800 hover:to-gray-700 hover:text-white'
                   }`}
                 >
                   <item.icon className="w-5 h-5" />
@@ -100,21 +148,21 @@ const Index = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        className="lg:hidden fixed top-6 left-6 z-50 w-10 h-10 bg-gray-900 text-white rounded-lg flex items-center justify-center"
+        className="lg:hidden fixed top-6 left-6 z-50 w-10 h-10 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-lg flex items-center justify-center shadow-lg backdrop-blur-sm"
       >
         {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40">
+        <div className="lg:hidden fixed inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/95 z-40 backdrop-blur-md">
           <div className="pt-20 px-6">
             <ul className="space-y-4">
               {navItems.map((item) => (
                 <li key={item.id}>
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className="w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-gray-800 rounded-lg transition-colors"
+                    className="w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 rounded-lg transition-all duration-300 transform hover:scale-105"
                   >
                     <item.icon className="w-5 h-5" />
                     <span>{item.label}</span>
@@ -127,23 +175,41 @@ const Index = () => {
       )}
 
       {/* Main Content */}
-      <main className="lg:ml-72">
+      <main className="lg:ml-72 relative z-10">
         {/* Hero Section */}
-        <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-6">
-          <div className="text-center max-w-4xl">
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-6">
-              I'm <span className="text-blue-600">Lokeshwar Reddy</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-8">
+        <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+          {/* Dynamic background layers */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-purple-100/20 to-pink-100/30 animate-gradient-shift" />
+          <AnimatedParticles />
+          <FloatingShapes />
+          
+          {/* Animated mesh background */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 transform skew-y-6 animate-pulse" />
+            <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-l from-pink-500/20 to-cyan-500/20 transform -skew-y-6 animate-pulse" style={{ animationDelay: '1s' }} />
+          </div>
+          
+          <div className="text-center max-w-4xl px-6 relative z-20">
+            <div className="mb-8 animate-fade-in">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6">
+                <span className="text-gray-800">I'm </span>
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient-text">
+                  Lokeshwar Reddy
+                </span>
+              </h1>
+            </div>
+            
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
               Computer Science Engineer • Blockchain Technology Specialist
             </p>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-10">
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-10 animate-fade-in" style={{ animationDelay: '0.4s' }}>
               Passionate about building secure, scalable, and decentralized applications. 
               Confident, adaptable, and eager to contribute technical insight and optimize system architectures.
             </p>
             <button 
               onClick={() => scrollToSection('about')}
-              className="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 text-lg font-semibold"
+              className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white px-8 py-4 rounded-full hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 text-lg font-semibold shadow-lg hover:shadow-xl animate-bounce"
+              style={{ animationDelay: '0.6s' }}
             >
               Learn More About Me
             </button>
@@ -151,8 +217,11 @@ const Index = () => {
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-20 px-6">
-          <div className="container mx-auto max-w-6xl">
+        <section id="about" className="py-20 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-50/50 to-blue-50/50" />
+          <FloatingShapes />
+          
+          <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-800 mb-4">About Me</h2>
               <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
@@ -209,8 +278,11 @@ const Index = () => {
         </section>
 
         {/* Skills Section */}
-        <section id="skills" className="py-20 px-6 bg-gray-50">
-          <div className="container mx-auto max-w-6xl">
+        <section id="skills" className="py-20 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-50/30 via-blue-50/30 to-cyan-50/30" />
+          <AnimatedParticles />
+          
+          <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-800 mb-4">Skills</h2>
               <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
@@ -340,8 +412,11 @@ const Index = () => {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-20 px-6">
-          <div className="container mx-auto max-w-6xl">
+        <section id="projects" className="py-20 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/30 to-purple-50/30" />
+          <FloatingShapes />
+          
+          <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-800 mb-4">Projects</h2>
               <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
@@ -419,8 +494,11 @@ const Index = () => {
         </section>
 
         {/* Certifications & Strengths */}
-        <section className="py-20 px-6 bg-gray-50">
-          <div className="container mx-auto max-w-6xl">
+        <section className="py-20 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-pink-50/30 via-purple-50/20 to-blue-50/30" />
+          <AnimatedParticles />
+          
+          <div className="container mx-auto max-w-6xl relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
               {/* Certifications */}
               <div>
@@ -490,8 +568,11 @@ const Index = () => {
         </section>
 
         {/* Education Section */}
-        <section id="education" className="py-20 px-6">
-          <div className="container mx-auto max-w-6xl">
+        <section id="education" className="py-20 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-50/30 to-blue-50/30" />
+          <FloatingShapes />
+          
+          <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-800 mb-4">Education</h2>
               <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
@@ -554,8 +635,11 @@ const Index = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-20 px-6 bg-gray-900 text-white">
-          <div className="container mx-auto max-w-6xl">
+        <section id="contact" className="py-20 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/50 to-purple-900/50" />
+          <AnimatedParticles />
+          
+          <div className="container mx-auto max-w-6xl text-white relative z-10">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-4">Contact Me</h2>
               <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
@@ -635,12 +719,47 @@ const Index = () => {
         </section>
 
         {/* Footer */}
-        <footer className="py-8 px-6 bg-gray-800 text-white border-t border-gray-700">
-          <div className="container mx-auto max-w-6xl text-center">
+        <footer className="py-8 px-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white border-t border-gray-700 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-purple-900/20" />
+          <div className="container mx-auto max-w-6xl text-center relative z-10">
             <p className="text-gray-300">&copy; 2024 Lokeshwar Reddy Guvvla. All rights reserved.</p>
           </div>
         </footer>
       </main>
+
+      {/* Custom CSS for additional animations */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        @keyframes gradient-shift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        @keyframes gradient-text {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        .animate-gradient-shift {
+          background-size: 400% 400%;
+          animation: gradient-shift 8s ease infinite;
+        }
+        .animate-gradient-text {
+          background-size: 400% 400%;
+          animation: gradient-text 4s ease infinite;
+        }
+        .animate-fade-in {
+          animation: fade-in 1s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 };
