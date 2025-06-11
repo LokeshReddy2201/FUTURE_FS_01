@@ -30,9 +30,28 @@ const Index = () => {
       <section className="pt-24 pb-16 px-6">
         <div className="container mx-auto max-w-4xl text-center">
           <div className="mb-8">
-            <div className="w-32 h-32 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full mx-auto mb-6 flex items-center justify-center">
-              <Code className="w-16 h-16 text-gray-600" />
+            {/* Profile Photo with Effects */}
+            <div className="relative w-40 h-40 mx-auto mb-6 group">
+              {/* Animated background rings */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-pulse"></div>
+              <div className="absolute inset-1 rounded-full bg-white"></div>
+              
+              {/* Main photo container */}
+              <div className="absolute inset-2 rounded-full overflow-hidden shadow-2xl transform transition-transform duration-300 group-hover:scale-105">
+                <img 
+                  src="/lovable-uploads/f2c6e985-8559-4402-b060-716b670040b0.png"
+                  alt="Lokeshwar Reddy Guvvla"
+                  className="w-full h-full object-cover transition-all duration-300 group-hover:brightness-110"
+                />
+                {/* Hover overlay with gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              
+              {/* Floating elements */}
+              <div className="absolute -top-2 -right-2 w-4 h-4 bg-green-400 rounded-full animate-bounce shadow-lg"></div>
+              <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-blue-400 rounded-full animate-pulse shadow-lg"></div>
             </div>
+            
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Lokeshwar Reddy Guvvla</h1>
             <p className="text-xl text-gray-600 mb-6">Computer Science Engineer • Blockchain Technology Specialist</p>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
@@ -43,14 +62,14 @@ const Index = () => {
           <div className="flex justify-center space-x-4">
             <button 
               onClick={() => scrollToSection('contact')}
-              className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors flex items-center space-x-2"
+              className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center space-x-2"
             >
               <Mail className="w-4 h-4" />
               <span>Get In Touch</span>
             </button>
             <button 
               onClick={() => scrollToSection('projects')}
-              className="border border-gray-800 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors"
+              className="border border-gray-800 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-800 hover:text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
             >
               View Projects
             </button>
