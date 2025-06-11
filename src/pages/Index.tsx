@@ -1,408 +1,646 @@
 
-import React from 'react';
-import { Mail, Phone, Github, ExternalLink, Calendar, MapPin, Award, Code, Database, Server, Globe, GraduationCap } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Mail, Phone, Github, ExternalLink, Calendar, MapPin, Award, Code, Database, Server, Globe, GraduationCap, Menu, X, Home, User, FileText, Briefcase, Book, Contact } from 'lucide-react';
 
 const Index = () => {
+  const [activeSection, setActiveSection] = useState('hero');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
+    setMobileMenuOpen(false);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['hero', 'about', 'skills', 'projects', 'education', 'contact'];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const offsetTop = element.offsetTop;
+          const offsetHeight = element.offsetHeight;
+          
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navItems = [
+    { id: 'hero', label: 'Home', icon: Home },
+    { id: 'about', label: 'About', icon: User },
+    { id: 'skills', label: 'Skills', icon: Code },
+    { id: 'projects', label: 'Projects', icon: Briefcase },
+    { id: 'education', label: 'Education', icon: GraduationCap },
+    { id: 'contact', label: 'Contact', icon: Contact },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold text-gray-800">Lokeshwar Reddy</h1>
-            <div className="hidden md:flex space-x-8">
-              <button onClick={() => scrollToSection('about')} className="text-gray-600 hover:text-gray-900 transition-colors">About</button>
-              <button onClick={() => scrollToSection('skills')} className="text-gray-600 hover:text-gray-900 transition-colors">Skills</button>
-              <button onClick={() => scrollToSection('projects')} className="text-gray-600 hover:text-gray-900 transition-colors">Projects</button>
-              <button onClick={() => scrollToSection('education')} className="text-gray-600 hover:text-gray-900 transition-colors">Education</button>
-              <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-gray-900 transition-colors">Contact</button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6">
-        <div className="container mx-auto max-w-4xl text-center">
-          <div className="mb-8">
-            {/* Profile Photo with Effects */}
-            <div className="relative w-40 h-40 mx-auto mb-6 group">
-              {/* Animated background rings */}
+      {/* Fixed Sidebar Navigation */}
+      <nav className="fixed top-0 left-0 h-full w-72 bg-gray-900 text-white z-50 transform transition-transform duration-300 lg:translate-x-0 -translate-x-full lg:block">
+        <div className="p-8">
+          {/* Profile Section */}
+          <div className="text-center mb-8">
+            <div className="relative w-32 h-32 mx-auto mb-4 group">
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-pulse"></div>
               <div className="absolute inset-1 rounded-full bg-white"></div>
-              
-              {/* Main photo container */}
-              <div className="absolute inset-2 rounded-full overflow-hidden shadow-2xl transform transition-transform duration-300 group-hover:scale-105">
+              <div className="absolute inset-2 rounded-full overflow-hidden shadow-2xl">
                 <img 
                   src="/lovable-uploads/f2c6e985-8559-4402-b060-716b670040b0.png"
                   alt="Lokeshwar Reddy Guvvla"
-                  className="w-full h-full object-cover transition-all duration-300 group-hover:brightness-110"
+                  className="w-full h-full object-cover"
                 />
-                {/* Hover overlay with gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-              
-              {/* Floating elements */}
-              <div className="absolute -top-2 -right-2 w-4 h-4 bg-green-400 rounded-full animate-bounce shadow-lg"></div>
-              <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-blue-400 rounded-full animate-pulse shadow-lg"></div>
             </div>
+            <h2 className="text-xl font-semibold mb-2">Lokeshwar Reddy</h2>
+            <p className="text-gray-400 text-sm">Blockchain Developer</p>
             
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Lokeshwar Reddy Guvvla</h1>
-            <p className="text-xl text-gray-600 mb-6">Computer Science Engineer • Blockchain Technology Specialist</p>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+            {/* Social Links */}
+            <div className="flex justify-center space-x-4 mt-4">
+              <a href="mailto:lokeshwarreddyguvvla@gmail.com" className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                <Mail className="w-4 h-4" />
+              </a>
+              <a href="#" className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors">
+                <Github className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* Navigation Menu */}
+          <ul className="space-y-2">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  onClick={() => scrollToSection(item.id)}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    activeSection === item.id 
+                      ? 'bg-blue-600 text-white' 
+                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                  }`}
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.label}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        className="lg:hidden fixed top-6 left-6 z-50 w-10 h-10 bg-gray-900 text-white rounded-lg flex items-center justify-center"
+      >
+        {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </button>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40">
+          <div className="pt-20 px-6">
+            <ul className="space-y-4">
+              {navItems.map((item) => (
+                <li key={item.id}>
+                  <button
+                    onClick={() => scrollToSection(item.id)}
+                    className="w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <item.icon className="w-5 h-5" />
+                    <span>{item.label}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main className="lg:ml-72">
+        {/* Hero Section */}
+        <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-6">
+          <div className="text-center max-w-4xl">
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-6">
+              I'm <span className="text-blue-600">Lokeshwar Reddy</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 mb-8">
+              Computer Science Engineer • Blockchain Technology Specialist
+            </p>
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-10">
               Passionate about building secure, scalable, and decentralized applications. 
               Confident, adaptable, and eager to contribute technical insight and optimize system architectures.
             </p>
-          </div>
-          <div className="flex justify-center space-x-4">
             <button 
-              onClick={() => scrollToSection('contact')}
-              className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center space-x-2"
+              onClick={() => scrollToSection('about')}
+              className="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 text-lg font-semibold"
             >
-              <Mail className="w-4 h-4" />
-              <span>Get In Touch</span>
-            </button>
-            <button 
-              onClick={() => scrollToSection('projects')}
-              className="border border-gray-800 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-800 hover:text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-            >
-              View Projects
+              Learn More About Me
             </button>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* About Section */}
-      <section id="about" className="py-16 px-6 bg-gray-50">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">🧑‍💻 About Me</h2>
-          <div className="bg-white rounded-lg p-8 shadow-sm">
-            <p className="text-lg text-gray-600 leading-relaxed text-center">
-              A passionate Computer Science Engineer specializing in Blockchain Technology. 
-              Skilled in building secure, scalable, and decentralized applications. 
-              Confident, adaptable, and eager to contribute technical insight and optimize system architectures.
-            </p>
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-800">4+</div>
-                <div className="text-sm text-gray-600">Years of Study</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-800">2</div>
-                <div className="text-sm text-gray-600">Major Projects</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-800">3</div>
-                <div className="text-sm text-gray-600">Certifications</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-800">7.0</div>
-                <div className="text-sm text-gray-600">CGPA</div>
-              </div>
+        {/* About Section */}
+        <section id="about" className="py-20 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">About Me</h2>
+              <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section id="skills" className="py-16 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">🛠️ Skills</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <div className="flex items-center mb-4">
-                <Code className="w-6 h-6 text-gray-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-800">Languages</h3>
-              </div>
-              <div className="space-y-2">
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Core Java</span>
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm ml-2">JavaScript</span>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <div className="flex items-center mb-4">
-                <Globe className="w-6 h-6 text-gray-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-800">Frontend</h3>
-              </div>
-              <div className="space-y-2">
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">HTML5</span>
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm ml-2">CSS3</span>
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">React.js</span>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <div className="flex items-center mb-4">
-                <Server className="w-6 h-6 text-gray-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-800">Backend</h3>
-              </div>
-              <div className="space-y-2">
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Node.js</span>
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm ml-2">Express.js</span>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <div className="flex items-center mb-4">
-                <Database className="w-6 h-6 text-gray-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-800">Database</h3>
-              </div>
-              <div className="space-y-2">
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">MySQL</span>
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm ml-2">SQL</span>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 md:col-span-2">
-              <div className="flex items-center mb-4">
-                <Award className="w-6 h-6 text-gray-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-800">Tools</h3>
-              </div>
-              <div className="space-y-2">
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">GitHub</span>
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm ml-2">VS Code</span>
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm ml-2">Stripe API</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="py-16 px-6 bg-gray-50">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">📁 Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="mb-4">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Attendance Management System</h3>
-                <p className="text-gray-600 mb-4">Built a QR-code based system to automate attendance with real-time monitoring and admin dashboard</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">HTML</span>
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">CSS</span>
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">React.js</span>
-                </div>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• QR-code based attendance automation</li>
-                  <li>• Real-time monitoring and admin dashboard</li>
-                  <li>• Improved time tracking and accuracy</li>
-                </ul>
-              </div>
-              <div className="flex space-x-2">
-                <button className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors">
-                  <Github className="w-4 h-4" />
-                  <span className="text-sm">Code</span>
-                </button>
-                <button className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors">
-                  <ExternalLink className="w-4 h-4" />
-                  <span className="text-sm">Demo</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="mb-4">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Food Ordering Website</h3>
-                <p className="text-gray-600 mb-4">Full-stack food ordering platform with secure Stripe payment integration</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">React.js</span>
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Node.js</span>
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Express.js</span>
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Stripe API</span>
-                </div>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• Full-stack food ordering platform</li>
-                  <li>• Secure payment with Stripe integration</li>
-                  <li>• Real-time cart and backend order management</li>
-                </ul>
-              </div>
-              <div className="flex space-x-2">
-                <button className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors">
-                  <Github className="w-4 h-4" />
-                  <span className="text-sm">Code</span>
-                </button>
-                <button className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 transition-colors">
-                  <ExternalLink className="w-4 h-4" />
-                  <span className="text-sm">Demo</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Certifications Section */}
-      <section className="py-16 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">📜 Certifications</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center">
-              <Award className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Full Stack Development</h3>
-              <p className="text-gray-600">AlgoXFusion</p>
-            </div>
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center">
-              <Award className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Advanced Java</h3>
-              <p className="text-gray-600">Stellar Academy</p>
-            </div>
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center">
-              <Award className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Cloud Computing</h3>
-              <p className="text-gray-600">NPTEL (IIT Kanpur)</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Education Section */}
-      <section id="education" className="py-16 px-6 bg-gray-50">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">🎓 Education</h2>
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <div className="flex items-start space-x-4">
-                <GraduationCap className="w-8 h-8 text-gray-600 mt-1" />
-                <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-gray-800">B.Tech – Blockchain Technology</h3>
-                  <p className="text-gray-600 mb-2">Sathyabama Institute of Science and Technology, Chennai</p>
-                  <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
-                    <span className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      2022–2026
-                    </span>
-                    <span>CGPA: 7.0</span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Smart Contracts</span>
-                    <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Cryptography</span>
-                    <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Consensus Algorithms</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <div className="flex items-start space-x-4">
-                <GraduationCap className="w-8 h-8 text-gray-600 mt-1" />
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-800">12th Grade</h3>
-                  <p className="text-gray-600 mb-2">Sri Chaitanya Junior College</p>
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <span className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      2022
-                    </span>
-                    <span>77.8%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <div className="flex items-start space-x-4">
-                <GraduationCap className="w-8 h-8 text-gray-600 mt-1" />
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-800">10th Grade</h3>
-                  <p className="text-gray-600 mb-2">Sri Chaitanya E.M High School</p>
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <span className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      2020
-                    </span>
-                    <span>CGPA: 10</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Strengths Section */}
-      <section className="py-16 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">🌟 Strengths</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Problem Solving & Analytical Thinking</h3>
-              <p className="text-gray-600">Strong ability to break down complex problems and find efficient solutions</p>
-            </div>
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Time Management</h3>
-              <p className="text-gray-600">Excellent at prioritizing tasks and meeting deadlines consistently</p>
-            </div>
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Self-Motivated & Fast Learner</h3>
-              <p className="text-gray-600">Quick to adapt to new technologies and continuously improve skills</p>
-            </div>
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Confident Communicator</h3>
-              <p className="text-gray-600">Effective at presenting ideas and collaborating with team members</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-16 px-6 bg-gray-50">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">📬 Contact</h2>
-          <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-100">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">Get In Touch</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <Mail className="w-5 h-5 text-gray-600" />
-                    <span className="text-gray-700">lokeshwarreddyguvvla@gmail.com</span>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-6">Blockchain Technology Specialist</h3>
+                <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                  A passionate Computer Science Engineer specializing in Blockchain Technology. 
+                  Skilled in building secure, scalable, and decentralized applications. 
+                  Confident, adaptable, and eager to contribute technical insight and optimize system architectures.
+                </p>
+                
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold text-gray-800 mb-2">Personal Info:</h4>
+                    <ul className="space-y-2 text-gray-600">
+                      <li><strong>Email:</strong> lokeshwarreddyguvvla@gmail.com</li>
+                      <li><strong>Phone:</strong> +91 91827 66007</li>
+                      <li><strong>Location:</strong> Chennai, India</li>
+                    </ul>
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <Phone className="w-5 h-5 text-gray-600" />
-                    <span className="text-gray-700">+91 91827 66007</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <MapPin className="w-5 h-5 text-gray-600" />
-                    <span className="text-gray-700">Chennai, India</span>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">Languages</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-gray-700">Telugu</span>
-                    <span className="text-gray-600">Native</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-700">English</span>
-                    <span className="text-gray-600">Fluent</span>
+                  <div>
+                    <h4 className="font-semibold text-gray-800 mb-2">Languages:</h4>
+                    <ul className="space-y-2 text-gray-600">
+                      <li><strong>Telugu:</strong> Native</li>
+                      <li><strong>English:</strong> Fluent</li>
+                    </ul>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="mt-8 pt-8 border-t border-gray-100 text-center">
-              <p className="text-gray-600 mb-4">Ready to bring your ideas to life with cutting-edge technology</p>
-              <button className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
-                Let&apos;s Work Together
-              </button>
+              
+              <div className="grid grid-cols-2 gap-6">
+                <div className="text-center p-6 bg-white rounded-lg shadow-sm">
+                  <div className="text-3xl font-bold text-blue-600 mb-2">4+</div>
+                  <div className="text-gray-600">Years of Study</div>
+                </div>
+                <div className="text-center p-6 bg-white rounded-lg shadow-sm">
+                  <div className="text-3xl font-bold text-blue-600 mb-2">2</div>
+                  <div className="text-gray-600">Major Projects</div>
+                </div>
+                <div className="text-center p-6 bg-white rounded-lg shadow-sm">
+                  <div className="text-3xl font-bold text-blue-600 mb-2">3</div>
+                  <div className="text-gray-600">Certifications</div>
+                </div>
+                <div className="text-center p-6 bg-white rounded-lg shadow-sm">
+                  <div className="text-3xl font-bold text-blue-600 mb-2">7.0</div>
+                  <div className="text-gray-600">CGPA</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Footer */}
-      <footer className="py-8 px-6 bg-gray-800 text-white">
-        <div className="container mx-auto max-w-4xl text-center">
-          <p className="text-gray-300">&copy; 2024 Lokeshwar Reddy Guvvla. All rights reserved.</p>
-        </div>
-      </footer>
+        {/* Skills Section */}
+        <section id="skills" className="py-20 px-6 bg-gray-50">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">Skills</h2>
+              <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center mb-6">
+                  <Code className="w-8 h-8 text-blue-600 mr-3" />
+                  <h3 className="text-xl font-semibold text-gray-800">Languages</h3>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">Core Java</span>
+                    <span className="text-blue-600 font-semibold">85%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-blue-600 h-2 rounded-full w-[85%]"></div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">JavaScript</span>
+                    <span className="text-blue-600 font-semibold">80%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-blue-600 h-2 rounded-full w-[80%]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center mb-6">
+                  <Globe className="w-8 h-8 text-green-600 mr-3" />
+                  <h3 className="text-xl font-semibold text-gray-800">Frontend</h3>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">React.js</span>
+                    <span className="text-green-600 font-semibold">85%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-green-600 h-2 rounded-full w-[85%]"></div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">HTML5/CSS3</span>
+                    <span className="text-green-600 font-semibold">90%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-green-600 h-2 rounded-full w-[90%]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center mb-6">
+                  <Server className="w-8 h-8 text-purple-600 mr-3" />
+                  <h3 className="text-xl font-semibold text-gray-800">Backend</h3>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">Node.js</span>
+                    <span className="text-purple-600 font-semibold">75%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-purple-600 h-2 rounded-full w-[75%]"></div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">Express.js</span>
+                    <span className="text-purple-600 font-semibold">70%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-purple-600 h-2 rounded-full w-[70%]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center mb-6">
+                  <Database className="w-8 h-8 text-orange-600 mr-3" />
+                  <h3 className="text-xl font-semibold text-gray-800">Database</h3>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">MySQL</span>
+                    <span className="text-orange-600 font-semibold">80%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-orange-600 h-2 rounded-full w-[80%]"></div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">SQL</span>
+                    <span className="text-orange-600 font-semibold">85%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-orange-600 h-2 rounded-full w-[85%]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow md:col-span-2">
+                <div className="flex items-center mb-6">
+                  <Award className="w-8 h-8 text-red-600 mr-3" />
+                  <h3 className="text-xl font-semibold text-gray-800">Tools & Others</h3>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-700">GitHub</span>
+                      <span className="text-red-600 font-semibold">90%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="bg-red-600 h-2 rounded-full w-[90%]"></div>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-700">Stripe API</span>
+                      <span className="text-red-600 font-semibold">75%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="bg-red-600 h-2 rounded-full w-[75%]"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Projects Section */}
+        <section id="projects" className="py-20 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">Projects</h2>
+              <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
+                <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                  <Code className="w-16 h-16 text-white" />
+                </div>
+                <div className="p-8">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-3">Attendance Management System</h3>
+                  <p className="text-gray-600 mb-4">Built a QR-code based system to automate attendance with real-time monitoring and admin dashboard</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">HTML</span>
+                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">CSS</span>
+                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">React.js</span>
+                  </div>
+                  
+                  <ul className="text-sm text-gray-600 space-y-2 mb-6">
+                    <li className="flex items-center"><span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>QR-code based attendance automation</li>
+                    <li className="flex items-center"><span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>Real-time monitoring and admin dashboard</li>
+                    <li className="flex items-center"><span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>Improved time tracking and accuracy</li>
+                  </ul>
+                  
+                  <div className="flex space-x-4">
+                    <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                      <Github className="w-4 h-4" />
+                      <span className="text-sm">Code</span>
+                    </button>
+                    <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                      <ExternalLink className="w-4 h-4" />
+                      <span className="text-sm">Demo</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
+                <div className="h-48 bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center">
+                  <Server className="w-16 h-16 text-white" />
+                </div>
+                <div className="p-8">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-3">Food Ordering Website</h3>
+                  <p className="text-gray-600 mb-4">Full-stack food ordering platform with secure Stripe payment integration</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">React.js</span>
+                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Node.js</span>
+                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Express.js</span>
+                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Stripe API</span>
+                  </div>
+                  
+                  <ul className="text-sm text-gray-600 space-y-2 mb-6">
+                    <li className="flex items-center"><span className="w-2 h-2 bg-green-600 rounded-full mr-2"></span>Full-stack food ordering platform</li>
+                    <li className="flex items-center"><span className="w-2 h-2 bg-green-600 rounded-full mr-2"></span>Secure payment with Stripe integration</li>
+                    <li className="flex items-center"><span className="w-2 h-2 bg-green-600 rounded-full mr-2"></span>Real-time cart and backend order management</li>
+                  </ul>
+                  
+                  <div className="flex space-x-4">
+                    <button className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors">
+                      <Github className="w-4 h-4" />
+                      <span className="text-sm">Code</span>
+                    </button>
+                    <button className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors">
+                      <ExternalLink className="w-4 h-4" />
+                      <span className="text-sm">Demo</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Certifications & Strengths */}
+        <section className="py-20 px-6 bg-gray-50">
+          <div className="container mx-auto max-w-6xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+              {/* Certifications */}
+              <div>
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold text-gray-800 mb-4">Certifications</h2>
+                  <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+                </div>
+                
+                <div className="space-y-6">
+                  <div className="bg-white rounded-lg p-6 shadow-sm flex items-center space-x-4">
+                    <Award className="w-12 h-12 text-blue-600 flex-shrink-0" />
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">Full Stack Development</h3>
+                      <p className="text-gray-600">AlgoXFusion</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg p-6 shadow-sm flex items-center space-x-4">
+                    <Award className="w-12 h-12 text-green-600 flex-shrink-0" />
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">Advanced Java</h3>
+                      <p className="text-gray-600">Stellar Academy</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg p-6 shadow-sm flex items-center space-x-4">
+                    <Award className="w-12 h-12 text-purple-600 flex-shrink-0" />
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">Cloud Computing</h3>
+                      <p className="text-gray-600">NPTEL (IIT Kanpur)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Strengths */}
+              <div>
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold text-gray-800 mb-4">Strengths</h2>
+                  <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+                </div>
+                
+                <div className="space-y-6">
+                  <div className="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Problem Solving & Analytical Thinking</h3>
+                    <p className="text-gray-600">Strong ability to break down complex problems and find efficient solutions</p>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Time Management</h3>
+                    <p className="text-gray-600">Excellent at prioritizing tasks and meeting deadlines consistently</p>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Self-Motivated & Fast Learner</h3>
+                    <p className="text-gray-600">Quick to adapt to new technologies and continuously improve skills</p>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Confident Communicator</h3>
+                    <p className="text-gray-600">Effective at presenting ideas and collaborating with team members</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Education Section */}
+        <section id="education" className="py-20 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">Education</h2>
+              <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-blue-600 hidden md:block"></div>
+              
+              <div className="space-y-12">
+                <div className="relative flex flex-col md:flex-row items-start">
+                  <div className="relative z-10 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-8 flex-shrink-0">
+                    <GraduationCap className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="bg-white rounded-lg p-8 shadow-sm flex-1">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-gray-800">B.Tech – Blockchain Technology</h3>
+                      <span className="text-blue-600 font-semibold">2022–2026</span>
+                    </div>
+                    <p className="text-gray-600 mb-3">Sathyabama Institute of Science and Technology, Chennai</p>
+                    <p className="text-gray-500 mb-4">CGPA: 7.0</p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Smart Contracts</span>
+                      <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Cryptography</span>
+                      <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Consensus Algorithms</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative flex flex-col md:flex-row items-start">
+                  <div className="relative z-10 w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-8 flex-shrink-0">
+                    <Book className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="bg-white rounded-lg p-8 shadow-sm flex-1">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-gray-800">12th Grade</h3>
+                      <span className="text-green-600 font-semibold">2022</span>
+                    </div>
+                    <p className="text-gray-600 mb-3">Sri Chaitanya Junior College</p>
+                    <p className="text-gray-500">Percentage: 77.8%</p>
+                  </div>
+                </div>
+
+                <div className="relative flex flex-col md:flex-row items-start">
+                  <div className="relative z-10 w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-8 flex-shrink-0">
+                    <Book className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="bg-white rounded-lg p-8 shadow-sm flex-1">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-gray-800">10th Grade</h3>
+                      <span className="text-orange-600 font-semibold">2020</span>
+                    </div>
+                    <p className="text-gray-600 mb-3">Sri Chaitanya E.M High School</p>
+                    <p className="text-gray-500">CGPA: 10</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section id="contact" className="py-20 px-6 bg-gray-900 text-white">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-4">Contact Me</h2>
+              <div className="w-20 h-1 bg-blue-600 mx-auto mb-6"></div>
+              <p className="text-xl text-gray-300">Ready to bring your ideas to life with cutting-edge technology</p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div>
+                <h3 className="text-2xl font-semibold mb-8">Get In Touch</h3>
+                <div className="space-y-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                      <Mail className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Email</h4>
+                      <p className="text-gray-300">lokeshwarreddyguvvla@gmail.com</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                      <Phone className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Phone</h4>
+                      <p className="text-gray-300">+91 91827 66007</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
+                      <MapPin className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Location</h4>
+                      <p className="text-gray-300">Chennai, India</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <form className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input
+                      type="text"
+                      placeholder="Your Name"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-600 text-white"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Your Email"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-600 text-white"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Subject"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-600 text-white"
+                  />
+                  <textarea
+                    rows={6}
+                    placeholder="Your Message"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-600 text-white resize-none"
+                  ></textarea>
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="py-8 px-6 bg-gray-800 text-white border-t border-gray-700">
+          <div className="container mx-auto max-w-6xl text-center">
+            <p className="text-gray-300">&copy; 2024 Lokeshwar Reddy Guvvla. All rights reserved.</p>
+          </div>
+        </footer>
+      </main>
     </div>
   );
 };
