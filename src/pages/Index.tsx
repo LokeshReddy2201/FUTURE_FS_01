@@ -43,6 +43,83 @@ const Index = () => {
     { id: 'contact', label: 'Contact', icon: Contact },
   ];
 
+  // 3D Computer Science Elements Component
+  const CS3DElements = () => (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Floating code snippets */}
+      <div className="absolute top-20 left-10 w-40 h-20 bg-gradient-to-r from-blue-900/20 to-purple-900/20 backdrop-blur-sm rounded-lg border border-blue-400/30 animate-float transform perspective-1000 rotate-x-12 rotate-y-12 shadow-2xl">
+        <div className="p-2 text-xs text-blue-300 font-mono">
+          <div>function solve() {'{'}</div>
+          <div className="ml-2">return true;</div>
+          <div>{'}'}</div>
+        </div>
+      </div>
+      
+      {/* 3D Cubes representing data structures */}
+      <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-br from-green-500/30 to-cyan-500/30 border border-green-400/50 animate-spin transform-gpu perspective-1000 shadow-lg" style={{ animationDuration: '8s' }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-green-600/20 border border-green-400/30 transform translate-z-4"></div>
+      </div>
+      
+      {/* Binary floating numbers */}
+      <div className="absolute bottom-40 left-20 text-green-400/40 font-mono text-lg animate-pulse">
+        <div className="animate-bounce" style={{ animationDelay: '0s' }}>1010</div>
+        <div className="animate-bounce" style={{ animationDelay: '0.5s' }}>1100</div>
+        <div className="animate-bounce" style={{ animationDelay: '1s' }}>0011</div>
+      </div>
+      
+      {/* Circuit board patterns */}
+      <svg className="absolute top-60 right-40 w-32 h-32 opacity-20 animate-pulse" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="circuit" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#00ff88" />
+            <stop offset="100%" stopColor="#0088ff" />
+          </linearGradient>
+        </defs>
+        <path d="M10,10 L90,10 L90,50 L50,50 L50,90 L10,90 Z" fill="none" stroke="url(#circuit)" strokeWidth="2" />
+        <circle cx="10" cy="10" r="3" fill="#00ff88" />
+        <circle cx="90" cy="10" r="3" fill="#0088ff" />
+        <circle cx="50" cy="50" r="3" fill="#ff0088" />
+      </svg>
+      
+      {/* Algorithmic flowchart elements */}
+      <div className="absolute bottom-60 right-60 w-24 h-24 border-2 border-purple-400/50 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 animate-spin transform-gpu" style={{ animationDuration: '12s' }}>
+        <div className="absolute inset-4 border border-purple-300/40 rounded-full bg-purple-400/10"></div>
+        <div className="absolute inset-8 border border-purple-200/40 rounded-full bg-purple-300/10"></div>
+      </div>
+      
+      {/* Network nodes */}
+      <div className="absolute top-80 left-80 animate-pulse">
+        <div className="w-3 h-3 bg-cyan-400 rounded-full mb-2"></div>
+        <div className="w-1 h-8 bg-gradient-to-b from-cyan-400 to-transparent mx-auto"></div>
+        <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+      </div>
+      
+      {/* Matrix-style falling code */}
+      <div className="absolute right-10 top-0 h-full w-20 overflow-hidden">
+        {[...Array(5)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute text-green-400/30 font-mono text-xs animate-bounce"
+            style={{
+              left: `${i * 20}%`,
+              animationDelay: `${i * 0.5}s`,
+              animationDuration: '3s'
+            }}
+          >
+            {['if', 'for', 'int', 'var', 'def'][i]}
+          </div>
+        ))}
+      </div>
+      
+      {/* 3D Database cylinder */}
+      <div className="absolute bottom-20 left-40 w-12 h-20 perspective-1000">
+        <div className="w-full h-4 bg-gradient-to-r from-orange-500/40 to-red-500/40 border border-orange-400/50 rounded-full transform rotate-x-75"></div>
+        <div className="w-full h-12 bg-gradient-to-b from-orange-500/30 to-red-500/30 border-l border-r border-orange-400/50 mt-2"></div>
+        <div className="w-full h-4 bg-gradient-to-r from-orange-500/40 to-red-500/40 border border-orange-400/50 rounded-full transform rotate-x-75"></div>
+      </div>
+    </div>
+  );
+
   // Animated background particles component
   const AnimatedParticles = () => (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -73,8 +150,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
-      {/* Global animated background */}
+      {/* Global animated background with CS elements */}
       <div className="fixed inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 animate-gradient-shift pointer-events-none" />
+      <CS3DElements />
       
       {/* Fixed Sidebar Navigation */}
       <nav className="fixed top-0 left-0 h-full w-72 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white z-50 transform transition-transform duration-300 lg:translate-x-0 -translate-x-full lg:block shadow-2xl border-r border-gray-700">
@@ -182,6 +260,7 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-purple-100/20 to-pink-100/30 animate-gradient-shift" />
           <AnimatedParticles />
           <FloatingShapes />
+          <CS3DElements />
           
           {/* Animated mesh background */}
           <div className="absolute inset-0 opacity-10">
@@ -281,6 +360,7 @@ const Index = () => {
         <section id="skills" className="py-20 px-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-50/30 via-blue-50/30 to-cyan-50/30" />
           <AnimatedParticles />
+          <CS3DElements />
           
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-center mb-16">
@@ -415,6 +495,7 @@ const Index = () => {
         <section id="projects" className="py-20 px-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/30 to-purple-50/30" />
           <FloatingShapes />
+          <CS3DElements />
           
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-center mb-16">
@@ -728,7 +809,7 @@ const Index = () => {
       </main>
 
       {/* Custom CSS for additional animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           50% { transform: translateY(-20px) rotate(180deg); }
@@ -758,6 +839,24 @@ const Index = () => {
         }
         .animate-fade-in {
           animation: fade-in 1s ease-out forwards;
+        }
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        .rotate-x-12 {
+          transform: rotateX(12deg);
+        }
+        .rotate-y-12 {
+          transform: rotateY(12deg);
+        }
+        .rotate-x-75 {
+          transform: rotateX(75deg);
+        }
+        .translate-z-4 {
+          transform: translateZ(4px);
+        }
+        .transform-gpu {
+          transform: translate3d(0, 0, 0);
         }
       `}</style>
     </div>
