@@ -1,18 +1,8 @@
-# Welcome to your Lovable project
+# Welcome to the portfolio website 
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/14472903-951f-4919-9eb4-062517ec11a9
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/14472903-951f-4919-9eb4-062517ec11a9) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
+**URL**:https://lokesh-protofolio-v6p2.vercel.app/ 
 
 **Use your preferred IDE**
 
@@ -60,14 +50,11 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/14472903-951f-4919-9eb4-062517ec11a9) and click on Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
+## Can I connect a custom domain to my portfolio website 
 
 Yes, you can!
 
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
